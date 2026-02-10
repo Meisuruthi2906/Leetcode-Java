@@ -1,0 +1,26 @@
+class Solution {
+    public int longestBalanced(int[] nums) {
+        int a = nums.length;
+
+        int[] balance = new int[a]; 
+        HashMap<Integer, Integer> first = new HashMap<>(); 
+
+        int result = 0;
+        for (int l = a - 1; l >= 0; l--) {
+            int y = nums[l];
+            Integer oldpos = first.get(y);
+            if (oldpos != null)
+                balance[oldpos] = 0;
+            first.put(y, l);
+            balance[l] = ((y & 1) == 0) ? 1 : -1;
+            int q = 0;
+            for (int r = l; r < a; r++) {
+                q += balance[r];
+                if (q == 0)
+                    result = Math.max(result, r - l + 1);
+            }
+        }
+
+        return result;
+    }
+}
